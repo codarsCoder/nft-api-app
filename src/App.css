@@ -1,10 +1,63 @@
 :root {
   --backGround:#14141F;
+  --color-input:#8A8AA0;
+  --color-primary:#343444;
+}
+*{
+  font-family: 'Urbanist', sans-serif;
 }
 
+.hover-blue:hover {
+ color: #5142fc !important;
+ text-decoration: underline !important;
+}
+
+/* App */
 .app-wrapper {
   background-color: var(--backGround);
 }
+
+
+
+/* Login - Register  */
 .login-page {
   background-color: var(--backGround);
+}
+
+.login-page button {
+  background: transparent !important;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.login-page button:hover{
+  background: #5142fc !important;
+  color: #fff;
+  border: 2px solid #5142fc;
+}
+
+.form-control {
+  color: var(--color-input) !important;
+  background: transparent !important;
+  border: 1px solid rgba(138, 138, 160, 0.3) !important
+}
+.login-page input[type="checkbox"] {
+  border: 1px solid rgba(138, 138, 160, 0.3) !important
+}
+
+/* Card */
+.nft-card-wrapper {
+  background-color: var(--color-primary);
+}
+
+.nft-card-media {
+  position: relative;
+  margin-bottom: 21px;
+  box-sizing: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.nft-card-media img{
+  width: 100%;
 }
