@@ -13,7 +13,13 @@
  color: #5142fc !important;
  text-decoration: underline !important;
 }
-
+.divider {
+  margin-top: 37px;
+  margin-bottom: 41px;
+  height: 1px;
+    width: 100%;
+  background-color:var(--color-primary)
+}
 /* App */
 .app-wrapper {
   background-color: var(--backGround);
@@ -26,7 +32,7 @@
   background-color: var(--backGround);
 }
 
-.login-page button {
+.login-page button, .detail-add-comment button {
   background: transparent !important;
   color: #fff;
   border: 2px solid #fff;
@@ -113,7 +119,7 @@
   justify-content: space-between;
   column-gap: 10px;
 }
-.nft-card-wrapper .avatar img {
+.nft-card-wrapper .avatar img  {
   width: 50px;
   height: 50px;
 border-radius: 10px;
@@ -126,4 +132,55 @@ border-radius: 10px;
   color: var(--text-color-1);
 }
 
+/* Detail   */
 
+.detail-media img {
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
+}
+
+.detail-whislist {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 28px;
+  color: #fff;
+  padding: 2px 11px;
+  border: 1px solid white !important;
+  border-radius: 8px;
+  background-color: black;
+  cursor: pointer;
+  border: none;
+}
+
+.detail-author {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+  padding:10px 20px;
+  border-radius: 15px;
+  background-color: var(--color-primary);
+}
+.detail-avatar img  {
+  width: 50px;
+  height: 50px;
+border-radius: 10px;
+}
+
+.info h6 a {
+  color: white !important;
+  text-decoration: none;
+  font-weight: bold;
+}
+.info h6 a:hover {
+  color: #5142fc !important;
+  text-decoration: underline !important;
+}
+
+.detail-comment {
+  border: 1px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 10px;
+}
