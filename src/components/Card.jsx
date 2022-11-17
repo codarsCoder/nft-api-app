@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { FaRegHeart } from "react-icons/fa";
 
 const Card = ({ name, base_experience, height, id, weight, types }) => {
-console.log(name);
-
     return (
         
             <div  className="nft-card-wrapper col-10 col-md-6 col-xl-3 p-3 ">
