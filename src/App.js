@@ -6,7 +6,7 @@ import Detail from './pages/Detail'
 function App() {
   return (
     <div className="app-wrapper">
-         <Detail />
+     
       <Card />
     </div>
 
