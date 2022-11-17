@@ -55,11 +55,17 @@
 
 /* Card */
 .nft-card-wrapper {
-  background-color: var(--color-primary);
-  border-radius: 20px;
+  background-color: var(--backGround);
+ 
   color: #fff;
+  position: relative;
+  padding: 20px;
 }
-
+.nft-card-content {
+  background-color: var(--color-primary);
+  padding:0 20px;
+  border-radius: 20px;
+}
 .nft-card-media {
   position: relative;
   margin-bottom: 21px;
@@ -76,7 +82,7 @@
 .nft-card-media .whislist{
   position: absolute;
   top: 13px;
-  right: 11px;
+  right: 0;
   font-weight: bold;
   font-size: 14px;
   line-height: 28px;
@@ -116,7 +122,6 @@
 .nft-card-wrapper .meta-info, .author {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   column-gap: 10px;
 }
 .nft-card-wrapper .avatar img  {
@@ -125,9 +130,19 @@
 border-radius: 10px;
 }
 .nft-card-wrapper .meta-info .price {
-  text-align: right;
+  text-align: left;
 }
-
+.nft-card-wrapper .meta-info .info {
+  /* position: absolute; */
+  top: 29px;
+  left: 35px;
+  font-weight: bold;
+  background-color: var(--color-secondary);
+  padding: 3px 5px;
+  border-radius: 10px;
+  cursor: context-menu;
+}
+ 
 .info span , .price span {
   color: var(--text-color-1);
 }
