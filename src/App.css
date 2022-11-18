@@ -72,6 +72,7 @@
   box-sizing: 20px;
   border-radius: 20px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .nft-card-media img{
@@ -144,14 +145,16 @@ border-radius: 10px;
   cursor: context-menu;
 }
  
-.info span , .price span, .detail-types span {
+.info span , .price span, .detail-types span ,.detail-types-2 span {
   color: var(--text-color-1);
+ 
+  font-weight: 600;
 }
 
 /* Detail   */
 
 .detail-media img {
-  width: 100%;
+  width: 80%;
   height: auto;
   border-radius: 30px;
 }
@@ -213,6 +216,23 @@ border-radius: 10px;
     border-radius: 15px;
     background-color: var(--color-primary);
 }
+.detail-types-2 {
+  display: flex;
+    justify-content: start;
+    align-items:center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: var(--color-primary);
+}
+.detail-types p, h4{
+margin: 0 !important;
+}
+.detail-types-2 p, h4{
+margin: 0 !important;
+}
+
 .detail-types figure {
 margin:0 !important
 }

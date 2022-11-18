@@ -1,46 +1,30 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Card from '../components/Card';
-import myData from '../helper/data'
 const Home = () => {
-   
+
     const [pokemon, setPokemon] = useState([])
+    const [nextUrl, SetNextUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=20")
+    const [prevUrl, SetPrevUrl] = useState("")
     const [resume, setResume] = useState(false)
 
-    // const getPokemon = async (idd) => {
-    //     const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idd}`)
-    //     const { name, base_experience, height, id, weight, types, short_effect } = data;
-    //     const item = { name, base_experience, height, id, weight, types, short_effect }
-    //     setPokemon(poke => [...poke, item])
-    // }
+    const getPokemon = async () => {
+        setResume(false)
+        setPokemon([])
+        const { data } = await axios.get(nextUrl)
+        console.log(data.next);
+        SetNextUrl(data.next)
+        SetPrevUrl(data.previus)
+        console.log(data);
+        const createPokemon = (res) => {
 
-    // const initPokemon = async () => {
-    //     for (let i = 1; i <= 30; i++) {
-    //         getPokemon(i);
-    //         if (i == 30) {
-    //             setResume(true)
-    //             localStorage.setItem("AllPokemon",JSON.stringify(pokemon))
-    //         }
-    //     }
-    // };
-        // let counter = [];
-    // const count = 30;
-    // const getPokemon = () => {
-    //     for (let i = 1; i <= count; i++) {
-    //         let number = Math.floor(Math.random() * 906)
-    //         if (!counter.includes(number)) {
-    //             counter.push(number)
-    //             setPokemon(poke => [...poke, myData[number]])
-    //         }
-    //     }
-    //     setResume(true)
-    // }
-    const count = 30;
-    const getPokemon = () => {
-        for (let i = 1; i <= count; i++) {
-            setPokemon(poke => [...poke, myData[i]])
+            res.forEach(async (poke) => {
+                const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${poke.name}`)
+                await setPokemon(currenPokemon => [...currenPokemon, data])
+            });
+            setResume(true)
         }
-        setResume(true)
+        createPokemon(data.results)
     }
 
     useEffect(() => {
@@ -48,12 +32,11 @@ const Home = () => {
     }, [])
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
+            <button onClick={() => getPokemon()} className='btn btn-primary'>Next</button>
             {
-                resume && (
+                (
                     pokemon.map((item, ind) => {
-
                         return (
-
                             <Card key={ind} {...item} />
                         )
                     })

@@ -1,57 +1,48 @@
 import React, { useEffect, useState } from 'react'
-import exImg from '../assets/ex-3.png'
-import nftImage from '../assets/ex-1.jpg'
 import icons from '../helper/icons'
 import { FaRegCommentAlt, FaRegHeart } from "react-icons/fa";
 import axios from 'axios';
+import { useLocation, useParams } from 'react-router-dom';
+
 
 const Detail = () => {
+const {pId} = useParams()
+const {state} = useLocation()
 
-   
-    const { name, base_experience, height, id, weight, types }={
-        "name": "bulbasaur",
-        "base_experience": 64,
-        "height": 7,
-        "id": 1,
-        "weight": 69,
-        "types": [
-            {
-                "slot": 1,
-                "type": {
-                    "name": "grass",
-                    "url": "https://pokeapi.co/api/v2/type/12/"
-                }
-            },
-            {
-                "slot": 2,
-                "type": {
-                    "name": "poison",
-                    "url": "https://pokeapi.co/api/v2/type/4/"
-                }
-            }
-        ]
-    };
- const [pability, setPability] = useState("");
+ 
+
+const { name, base_experience, height, id, weight, types,abilities } =state
+ const [pability, setPability] = useState([]);
 
   const  getAbility = async () => {
-            const {data}= await axios.get(`https://pokeapi.co/api/v2/ability/bulbasaur`)
-            console.log(data);
-             setPability(data.effect_entries[1].effect)
+    console.log({abilities})
+    abilities.map(async(item)=>{
+         const {data} = await axios.get(`https://pokeapi.co/api/v2/ability/${item.ability.name}`)
+         console.log(item.ability.name);
+         const abily = data.effect_entries.filter(it => it.language.name ==="en")
+         console.log(abily);
+         setPability((abl)=>[...abl,abily[0].effect])
+         
+         
+    })
+    
+            // console.log(state.abilities);
+            //  setPability(data.effect_entries[1].effect)
     }
     useEffect(() => {
-        getAbility()
+        getAbility() 
     }, [])
     
     const pokeImg= `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
-           
-                <div className=" col-md-12 col-xl-6">
+           <button onClick={()=> console.log(pability)}>vv</button>
+                <div className=" col-md-8 col-xl-5">
                     <div className="detail-media">
                         <img src={pokeImg} alt="" />
                     </div>
                 </div>
-                <div className=" col-md-12 col-xl-6 d-flex align-items-center flex-column p-3">
+                <div className=" col-md-12 col-xl-7 d-flex align-items-center flex-column p-3">
                     <div className="detail-title text-center text-white " >
                         <h1>{name.slice(0,1).toLocaleUpperCase()+ name.slice(1)}</h1>
                     </div>
@@ -101,7 +92,7 @@ const Detail = () => {
                         types.map((type,i) => {
                           return(
                          
-                            <figure className='d-flex flex-column align-items-center '>
+                            <figure key={i} className='d-flex flex-column align-items-center '>
                                <img width={"60px"} height={"60px"} src={icons[type.type.name]} alt={type.type.name} title={type.type.name}/>
                            <figcaption>{type.type.name}</figcaption>
                             </figure>
@@ -110,8 +101,32 @@ const Detail = () => {
                         })
                     }
                     </div>
+                  
+                    {
+                        
+                         abilities.map((it,i)=> {
+                            {   
+                               
+                               
+                                  return(
+                                    <>  
+                                    <div className="detail-types-2  text-white text-start mt-3">
+                    <span>Ability-{i+1}</span>  
+                    <div>
+                        <h4 key={i}>{it.ability.name}: </h4>
+                         <p >{pability[i]}</p>
+                    </div>
+                         
+                          </div>
+                        </>
+                          ) 
+                            }
+                       
+                        })
+                    }
+                
                     <div className="w-100 text-white text-start mt-3">
-                        <p>{pability}</p>
+                       
                     </div>
                 </div>
 

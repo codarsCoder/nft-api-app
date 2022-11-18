@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { FaRegHeart } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-const Card = ({ name, base_experience, height, id, weight, types }) => {
+const Card = ({ name, base_experience, height, id, weight, types,abilities }) => {
+    const navigate = useNavigate()
     return (
         
             <div  className="nft-card-wrapper col-10 col-md-6 col-xl-3 p-3 ">
                 <div className="nft-card-content">
-                    <div className="nft-card-media rounded">
+                    <div onClick={()=>navigate(`/detail/${id}`,{state:{ name, base_experience, height, id, weight, types,abilities}})}  className="nft-card-media rounded">
                         <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`} alt="axies" />
 
                         <div className="whislist"><FaRegHeart className='text-white fs-5 me-1' />220</div>
