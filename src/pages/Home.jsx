@@ -21,6 +21,7 @@ const Home = () => {
             res.forEach(async (poke) => {
                 const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${poke.name}`)
                 await setPokemon(currenPokemon => [...currenPokemon, data])
+                console.log(data)
             });
             setResume(true)
         }
@@ -34,13 +35,11 @@ const Home = () => {
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
             <button onClick={() => getPokemon()} className='btn btn-primary'>Next</button>
             {
-                (
-                    pokemon.map((item, ind) => {
-                        return (
-                            <Card key={ind} {...item} />
-                        )
-                    })
-                )
+                pokemon.map((item, ind) => {
+                    return (
+                        <Card key={ind} {...item} />
+                    )
+                })
             }
         </div>
     )

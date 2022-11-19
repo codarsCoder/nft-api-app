@@ -7,7 +7,7 @@ const Register = () => {
 
     return (
         <div className='container d-flex flex-column align-items-center text-white mt-5 login-page'>
-            <h1>REGISTER NFT APP</h1>
+            <h1>REGISTER POKE APP</h1>
             <div className="col-10 col-md-6 mx-auto mt-5">
                 <form>
                     <div className="mb-4">
