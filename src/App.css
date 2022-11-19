@@ -252,8 +252,8 @@ margin:0 !important
 }
 .progress-bar, .progress  {
 height: 25px !important;
-display: grid;
-place-items: center;
+display: flex;
+align-items: center;
 font-size: medium;
 font-weight: bold;
 }
@@ -274,11 +274,42 @@ font-weight: bold;
   font-weight: bold;
 }
 
-/* @media screen and(max-width:768px){
-  .card-width{
-    width:15% !important ;
-  }
-} */
+/* SWIPER */
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide  {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
 
 @media screen and (max-width: 768px) { 
   .meta-item {

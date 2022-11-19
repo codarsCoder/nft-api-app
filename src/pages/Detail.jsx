@@ -4,27 +4,28 @@ import { FaRegCommentAlt, FaRegHeart, FaSyncAlt } from "react-icons/fa";
 import { BiRightArrow } from "react-icons/bi";
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Pcarousel from '../components/Pcarousel';
 
 
 const Detail = () => {
     const { pId } = useParams()
     const { state } = useLocation()
     const navigate = useNavigate()
-    const { name, base_experience, height, id, weight, types, abilities,sprites,species,stats} = state
+    const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats } = state
     const [pability, setPability] = useState([]);
     const [evolation, setEvolation] = useState("");
 
-console.log(stats);
+    console.log(stats);
     const getAbility = async () => {
         setEvolation("")
         abilities.map(async (item) => {
-            const { data } = await axios.get(`https://pokeapi.co/api/v2/ability/${item.ability.name}`)          
+            const { data } = await axios.get(`https://pokeapi.co/api/v2/ability/${item.ability.name}`)
             const abily = data.effect_entries.filter(it => it.language.name === "en")
             setPability((abl) => [...abl, abily[0].effect])
             const datam = await axios.get(species.url)
-              const evo =   datam.data?.evolves_from_species?.name
-              const evolation =   evo &&  await axios.get(`https://pokeapi.co/api/v2/pokemon/${evo}`)
-              setEvolation({...evolation.data})
+            const evo = datam.data?.evolves_from_species?.name
+            const evolation = evo && await axios.get(`https://pokeapi.co/api/v2/pokemon/${evo}`)
+            setEvolation({ ...evolation.data })
         })
 
         // console.log(state.abilities);
@@ -34,9 +35,13 @@ console.log(stats);
         getAbility()
     }, [])
 
+    useEffect(() => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    }, [abilities])
+
     const pokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
     const evopokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolation.id}.png`
-    
+
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
             <div className=" col-md-8 col-xl-5">
@@ -47,10 +52,10 @@ console.log(stats);
             <div className=" col-md-12 col-xl-7 d-flex align-items-between flex-column p-5">
                 <div className="detail-title d-flex align-items-center text-center text-white p-3" >
                     <h1>{name.slice(0, 1).toLocaleUpperCase() + name.slice(1)}</h1>
-                <div className="meta-item d-flex justify-content-end gap-3 w-100 ">
-                    <div className="detail-whislist d-flex justify-content-center  align-items-center gap-1"><FaRegHeart className='text-white fs-5 me-1' />0</div>
-                    <div className="detail-whislist d-flex justify-content-center  align-items-center gap-1"><FaRegCommentAlt className='text-white fs-5 me-1' />0</div>
-                </div> </div>
+                    <div className="meta-item d-flex justify-content-end gap-3 w-100 ">
+                        <div className="detail-whislist d-flex justify-content-center  align-items-center gap-1"><FaRegHeart className='text-white fs-5 me-1' />0</div>
+                        <div className="detail-whislist d-flex justify-content-center  align-items-center gap-1"><FaRegCommentAlt className='text-white fs-5 me-1' />0</div>
+                    </div> </div>
                 <div className="detail-info d-flex justify-content-around flex-wrap w-100 ">
                     <div className="col-12 col-md-4 p-1">
                         <div className="detail-author  ">
@@ -99,79 +104,81 @@ console.log(stats);
                         })
                     }
                 </div>
-                
-               
+
+
             </div>
             {
-                    abilities.map((it, i) => {
-                        {
-                            return (
-                                <>
-                                    <div className="detail-types-2 w-100  text-white text-start mt-3">
-                                        <span>Ability-{i + 1}</span>
-                                        <div>
-                                            <h4 key={i}>{it.ability.name}: </h4>
-                                            <p >{pability[i]}</p>
-                                        </div>
+                abilities.map((it, i) => {
+                    {
+                        return (
+                            <>
+                                <div className="detail-types-2 w-100  text-white text-start mt-3">
+                                    <span>Ability-{i + 1}</span>
+                                    <div>
+                                        <h4 key={i}>{it.ability.name}: </h4>
+                                        <p >{pability[i]}</p>
                                     </div>
-                                </>
-                            )
-                        }
-                    })
-                }
-                {
-                    evolation && (
-                        <>
-                               <h4 className='text-white mt-3'>Evolation</h4>
-                <div className="evolation d-flex align-items-center justify-content-center mt-3">
+                                </div>
+                            </>
+                        )
+                    }
+                })
+            }
+            {
+                evolation && (
+                    <>
+                      <div className='w-100 text-center'> <h4 className='text-white mt-3 mx-auto'>Evolation</h4></div> 
+                        <div className="evolation d-flex align-items-center justify-content-center mt-3">
+
+                            <div className="nft-card-content col-6 col-md-4">
+                                <div className="nft-card-media rounded">
+                                    <img src={evopokeImg} alt="axies" />
+                                </div>
+                                <div className="nft-card-title"><h3 className='text-white m-auto'>{evolation.name} </h3>
+                                </div>
+                            </div>
+                            <div className="arrow"><BiRightArrow className='arrow-in' /></div>
+                            <div className="nft-card-content col-6 col-md-4">
+                                <div className="nft-card-media rounded">
+                                    <img src={pokeImg} alt="axies" />
+                                </div>
+                                <div className="nft-card-title"><h3 className='text-white m-auto'>{name} </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
+            <div className=" d-flex flex-column gap-2 mt-3 col-12 col-md-8">
+            <div className='w-100 text-center'> <h4 className='text-white mt-3 mx-auto'>Stats</h4></div> 
                     
-                     <div className="nft-card-content col-6 col-md-4">
-                          <div className="nft-card-media rounded">
-                              <img src={evopokeImg} alt="axies" />
-                              </div>
-                          <div className="nft-card-title"><h3 className='text-white m-auto'>{evolation.name} </h3>
-                          </div>
-                      </div>
-                      <div className="arrow"><BiRightArrow className='arrow-in'/></div>
-                      <div className="nft-card-content col-6 col-md-4">
-                          <div className="nft-card-media rounded">
-                              <img  src={pokeImg} alt="axies" />
-                              </div>
-                          <div className="nft-card-title"><h3 className='text-white m-auto'>{name} </h3>
-                          </div>
-                      </div>
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{ width: `${Math.round(stats[0].base_stat / 2)}%` }} aria-valuenow={10} aria-valuemin={0} aria-valuemax={100} />
+                    <span className='stat-name'>{stats[0].stat.name}</span><span className="stat-value">{`${Math.round(stats[0].base_stat / 2)}%`}</span>
                 </div>
-                </>
-                    )
-                }
-         <div className="w-100 d-flex flex-column gap-2">
-         <div className="progress">
-  <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{width: `${Math.round(stats[0].base_stat/2)}%`}} aria-valuenow={10} aria-valuemin={0} aria-valuemax={100} />
-  <span className='stat-name'>{stats[0].stat.name}</span><span className="stat-value">{`${Math.round(stats[0].base_stat/2)}%`}</span>
-  </div>
-  <div className="progress">
-    <div className="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style={{width: `${Math.round(stats[1].base_stat/2)}%`}} aria-valuenow={25} aria-valuemin={0} aria-valuemax={100} />
-  <span className='stat-name'>{stats[1].stat.name}</span><span className="stat-value">{`${Math.round(stats[1].base_stat/2)}%`}</span>
-  </div>
-  <div className="progress">
-    <div className="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style={{width: `${Math.round(stats[2].base_stat/2)}%`}} aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} />
-  <span className='stat-name'>{stats[2].stat.name}</span><span className="stat-value">{`${Math.round(stats[2].base_stat/2)}%`}</span>
-  </div>
-  <div className="progress">
-    <div className="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style={{width: `${Math.round(stats[3].base_stat/2)}%`}} aria-valuenow={75} aria-valuemin={0} aria-valuemax={100} />
-  <span className='stat-name'>{stats[3].stat.name}</span><span className="stat-value">{`${Math.round(stats[3].base_stat/2)}%`}</span>
-  </div>
-  <div className="progress">
-    <div className="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style={{width: `5%`}} aria-valuenow={100} aria-valuemin={0} aria-valuemax={100} />
-  <span className='stat-name'>{stats[4].stat.name}</span><span className="stat-value">{`${Math.round(stats[4].base_stat/2)}%`}</span>
-  </div>
-  <div className="progress">
-    <div className="progress-bar progress-bar-striped progress-bar-animated bg-secondary" role="progressbar" style={{width: `${Math.round(stats[5].base_stat/2)}%`}} aria-valuenow={100} aria-valuemin={0} aria-valuemax={100} />
-  <span className='stat-name'>{stats[5].stat.name}</span><span className="stat-value">{`${Math.round(stats[5].base_stat/2)}%`}</span>
-  </div>
-         </div>
-                         
-                
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style={{ width: `${Math.round(stats[1].base_stat / 2)}%` }} aria-valuenow={25} aria-valuemin={0} aria-valuemax={100} />
+                    <span className='stat-name'>{stats[1].stat.name}</span><span className="stat-value">{`${Math.round(stats[1].base_stat / 2)}%`}</span>
+                </div>
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style={{ width: `${Math.round(stats[2].base_stat / 2)}%` }} aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} />
+                    <span className='stat-name'>{stats[2].stat.name}</span><span className="stat-value">{`${Math.round(stats[2].base_stat / 2)}%`}</span>
+                </div>
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style={{ width: `${Math.round(stats[3].base_stat / 2)}%` }} aria-valuenow={75} aria-valuemin={0} aria-valuemax={100} />
+                    <span className='stat-name'>{stats[3].stat.name}</span><span className="stat-value">{`${Math.round(stats[3].base_stat / 2)}%`}</span>
+                </div>
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style={{ width: `5%` }} aria-valuenow={100} aria-valuemin={0} aria-valuemax={100} />
+                    <span className='stat-name'>{stats[4].stat.name}</span><span className="stat-value">{`${Math.round(stats[4].base_stat / 2)}%`}</span>
+                </div>
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-secondary" role="progressbar" style={{ width: `${Math.round(stats[5].base_stat / 2)}%` }} aria-valuenow={100} aria-valuemin={0} aria-valuemax={100} />
+                    <span className='stat-name'>{stats[5].stat.name}</span><span className="stat-value">{`${Math.round(stats[5].base_stat / 2)}%`}</span>
+                </div>
+            </div>
+
+
             <div className="divider"></div>
 
             <div className=" col-10  d-flex flex-column  align-items-center">
@@ -198,6 +205,7 @@ console.log(stats);
                     </div>
                 </div>
             </div>
+            <Pcarousel pokemon={state.pokemon}/>
         </div>
     )
 }

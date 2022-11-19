@@ -4,6 +4,7 @@ import Home from "../pages/Home"
 import Detail from "../pages/Detail"
 import Register from "../pages/login/Register"
 import PrivateRoute from "../pages/PrivateRoute"
+import NotFound from "../pages/NotFound"
 
 
 
@@ -18,6 +19,8 @@ const Router = () => {
             <Route path="/detail/:pId" element={<PrivateRoute />}>
                 <Route path="" element={<Detail />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
+            <Route path="*/*" element={<NotFound />} />
         </Routes>
 
     )

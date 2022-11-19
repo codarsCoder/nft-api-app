@@ -37,7 +37,7 @@ const Home = () => {
             {
                 pokemon.map((item, ind) => {
                     return (
-                        <Card key={ind} {...item} />
+                        <Card key={ind} {...item} pokemon={pokemon}  />
                     )
                 })
             }
