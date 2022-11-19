@@ -1,25 +1,22 @@
 import './App.css';
-import Login from './pages/login/Login';
-import Register from './pages/login/Register';
-import Card from './components/Card';
-import Detail from './pages/Detail'
-import Home from './pages/Home';
+
 import { BrowserRouter } from 'react-router-dom';
 import Router from './router/Router';
 import Navigation from './components/Navbar';
 import Pcarousel from './components/Pcarousel';
-
+import { Provider } from "react-redux";
+import { store } from "./redux";
 function App() {
 
   return (
-    
-    <div className="app-wrapper">
-     <BrowserRouter>
-     <Navigation/>
 
-     <Router/>
-     </BrowserRouter>
-     
+    <div className="app-wrapper">
+      <Provider store={store}>
+        <BrowserRouter>
+          <Navigation />
+          <Router />
+        </BrowserRouter>
+      </Provider>
     </div>
 
   );

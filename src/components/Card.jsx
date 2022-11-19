@@ -14,19 +14,18 @@ const Card = ({ name, base_experience, height, id, weight, types,abilities,sprit
                     <div onClick={()=>navigate(`/detail/${id}`,{state:{ name, base_experience, height, id, weight, types,abilities,sprites,species,stats,pokemon}})}  className="nft-card-media rounded">
                         <img style={{backgroundColor:`${color}`}} src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`} alt="axies" />
 
-                        <div className="whislist"><FaRegHeart className='text-white fs-5 me-1' />220</div>
+                       
                     </div>
                     <div className="nft-card-title"><h3 className='text-truncate'>{name} </h3><div className="tags" title='Type'>{types[0].type.name}</div></div>
                     <div className="meta-info">
-                        <div className="author">
-
-                        </div>
-                        <div className="price"><span>base exprience</span>
-                            <p> {base_experience}</p></div>
+                      
+                        {/* <div className="price"><span>base exprience</span>
+                            <p> {base_experience}</p></div> */}
                         <div className="price"><span>Weight</span>
                             <p>{weight / 10}kg</p></div>
                         <div className="price"><span>Height</span>
                             <p>{height * 10}cm</p></div>
+                             <div className="whislist"><FaRegHeart className='text-white fs-5 me-1' />220</div>
                     </div>
                 </div>
             </div>

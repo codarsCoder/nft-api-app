@@ -80,8 +80,8 @@
   border-radius: 20px;
 }
 
-.nft-card-media .whislist{
-  position: absolute;
+.whislist{
+  /* position: absolute; */
   top: 13px;
   right: 10px;
   font-weight: bold;
@@ -117,14 +117,15 @@
     cursor:context-menu
 }
 
-.nft-card-wrapper .meta-info {
-  margin-bottom: 4px;
-}
 
 .nft-card-wrapper .meta-info, .author {
   display: flex;
   align-items: center;
   column-gap: 10px;
+}
+.nft-card-wrapper .meta-info {
+  margin-bottom: 4px;
+  justify-content: space-between;
 }
 .nft-card-wrapper .avatar img  {
   width: 50px;

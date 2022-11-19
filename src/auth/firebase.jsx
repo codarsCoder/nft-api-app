@@ -20,25 +20,5 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app)
+export const auth = getAuth(app)
 
-export const createUser = async (email, password, navigate, displayName) => {
-    //? yeni bir kullanıcı oluşturmak için kullanılan firebase metodu
-    try {
-      let userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      //? kullanıcı profilini güncellemek için kullanılan firebase metodu
-      await updateProfile(auth.currentUser, {
-        displayName: displayName,
-      });
-      navigate("/");
-      toastSuccessNotify("Registered successfully!");
-      // console.log(userCredential);
-    } catch (error) {
-      toastErrorNotify(error.message);
-      // alert(error.message);
-    }
-  };

@@ -3,13 +3,18 @@ import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // getUser(email, password, setUserL, setMessage)
+  }
+
   const [message, setMessage] = useState("")
 
   return (
     <div className='container d-flex flex-column align-items-center text-white mt-5 login-page'>
       <h1>LOGIN POKE APP</h1>
       <div className="col-10 col-md-6 mx-auto mt-5">
-        <form>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-4">
             <input type="email" className="form-control" id="exampleInputEmail1" placeholder='Your  email' autoFocus />
             <div className="form-text">{message}</div>
