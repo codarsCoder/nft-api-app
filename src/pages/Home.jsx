@@ -1,39 +1,44 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Card from '../components/Card';
+import { useCurrentUser } from '../hooks/hooks';
+
 const Home = () => {
 
+    const user = useCurrentUser() ;console.log(user)
     const [pokemon, setPokemon] = useState([])
     const [nextUrl, SetNextUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=20")
     const [prevUrl, SetPrevUrl] = useState("")
     const [resume, setResume] = useState(false)
 
-    const getPokemon = async () => {
+    const getPokemon = async (props) => {
         setResume(false)
         setPokemon([])
-        const { data } = await axios.get(nextUrl)
-        console.log(data.next);
+        const { data } = await axios.get(props === "next" ? nextUrl : prevUrl )
         SetNextUrl(data.next)
-        SetPrevUrl(data.previus)
-        console.log(data);
+        SetPrevUrl(nextUrl)
         const createPokemon = (res) => {
 
             res.forEach(async (poke) => {
                 const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${poke.name}`)
                 await setPokemon(currenPokemon => [...currenPokemon, data])
-                console.log(data)
             });
             setResume(true)
         }
         createPokemon(data.results)
     }
-
+    
     useEffect(() => {
-        getPokemon()
+        getPokemon("next")
     }, [])
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
-            <button onClick={() => getPokemon()} className='btn btn-primary'>Next</button>
+            <div className="list-button">
+                <button onClick={() => getPokemon("previev")} className='btn btn-secondary'>Previev</button>
+            <button onClick={() => getPokemon("next")} className='btn btn-primary'>Next</button>
+            </div>
+            
             {
                 pokemon.map((item, ind) => {
                     return (

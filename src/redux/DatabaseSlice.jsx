@@ -1,8 +1,9 @@
 import { async } from "@firebase/util";
 import {createSlice,createAsyncThunk} from "@reduxjs/toolkit"
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateCurrentUser, updateProfile } from "firebase/auth";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import {auth} from "../auth/firebase"
+import {auth, dbComments} from "../auth/firebase"
 
 
 const initialState = {
@@ -14,14 +15,11 @@ const initialState = {
   };
   
  
-  export const register = createAsyncThunk(
-    "register",
-    async({user,email,password},{rejectWithValue})=>{
+  export const addComment = createAsyncThunk(
+    "addComment",
+    async({email,comment},{rejectWithValue})=>{
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(auth.currentUser, {
-                displayName: user,
-              });
+            addDoc(dbComments,{emal:email, commnt:comment,time:serverTimestamp()})
         } catch (e) {
             return rejectWithValue(e.code); 
         }
@@ -55,8 +53,8 @@ const initialState = {
     await signOut(auth);
   });
 
-  const authSlice = createSlice({
-    name:"auth",
+  const DatabaseSlice = createSlice({
+    name:"database",
     initialState,
     reducers:{
         changeName: (state,{payload})=>{
@@ -71,46 +69,46 @@ const initialState = {
     },
     extraReducers: (builder) => {
         builder
-          .addCase(register.pending, (state) => {
+          .addCase(addComment.pending, (state) => {
             state.isLoading = true;
             console.log("başladı")
           })
-          .addCase(register.fulfilled, (state) => {
+          .addCase(addComment.fulfilled, (state) => {
             state.isLoading = false;
-            const navigate = useNavigate()
-            navigate("/")
+            console.log("eklendi")
           })
-          .addCase(register.rejected, (state, action) => {
+          .addCase(addComment.rejected, (state, action) => {
             state.error =action.payload ;
             state.isLoading = false;
             console.log(action.payload)
+            console.log("hata")
           })
-          .addCase(login.pending, (state) => {
-            state.isLoading = true;
-          })
-          .addCase(login.fulfilled, (state,action) => {
-            state.isLoading = false;
-            state.email = action.payload
-            console.log(state.email)
-          })
-          .addCase(login.rejected, (state, action) => {
-            state.error = action.payload;
-            state.isLoading = false;
-          })
-          .addCase(forgotPassword.pending, (state) => {
-            state.isLoading = true;
-          })
-          .addCase(forgotPassword.fulfilled, (state) => {
-            state.isLoading = false;
-          })
-          .addCase(forgotPassword.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-          });
+    //       .addCase(login.pending, (state) => {
+    //         state.isLoading = true;
+    //       })
+    //       .addCase(login.fulfilled, (state,action) => {
+    //         state.isLoading = false;
+    //         state.email = action.payload
+    //         console.log(state.email)
+    //       })
+    //       .addCase(login.rejected, (state, action) => {
+    //         state.error = action.payload;
+    //         state.isLoading = false;
+    //       })
+    //       .addCase(forgotPassword.pending, (state) => {
+    //         state.isLoading = true;
+    //       })
+    //       .addCase(forgotPassword.fulfilled, (state) => {
+    //         state.isLoading = false;
+    //       })
+    //       .addCase(forgotPassword.rejected, (state, action) => {
+    //         state.isLoading = false;
+    //         state.error = action.payload;
+    //       });
       },
 
   })
 
-  export const { changeName, changeEmail, changePassword } = authSlice.actions;
+  export const { changeName, changeEmail, changePassword } = DatabaseSlice.actions;
 
-export default authSlice.reducer;
+export default DatabaseSlice.reducer;

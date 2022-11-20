@@ -5,17 +5,31 @@ import { BiRightArrow } from "react-icons/bi";
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Pcarousel from '../components/Pcarousel';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useCurrentUser } from '../hooks/hooks';
+import { addComment } from '../redux/DatabaseSlice';
+import { addbaba } from '../auth/firebase';
 
 const Detail = () => {
+
+    const email = useSelector((state) => state.auth.email);
+    console.log(email);
     const { pId } = useParams()
     const { state } = useLocation()
-    const navigate = useNavigate()
-    const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats } = state
     const [pability, setPability] = useState([]);
     const [evolation, setEvolation] = useState("");
+    const [comment, setComment] = useState("");
+    const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats } = state
+    const dispatch = useDispatch();
 
-    console.log(stats);
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        dispatch(addComment({email,comment}));
+        // addbaba(email,comment)
+      }
+
+
+
     const getAbility = async () => {
         setEvolation("")
         abilities.map(async (item) => {
@@ -28,9 +42,9 @@ const Detail = () => {
             setEvolation({ ...evolation.data })
         })
 
-        // console.log(state.abilities);
-        //  setPability(data.effect_entries[1].effect)
+ 
     }
+
     useEffect(() => {
         getAbility()
     }, [])
@@ -40,7 +54,7 @@ const Detail = () => {
     }, [abilities])
 
     const pokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
-    const evopokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolation.id}.png`
+    let evopokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolation.id}.png`
 
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
@@ -193,9 +207,9 @@ const Detail = () => {
                 </div>
                 <div className="detail-add-comment w-100">
                     <div className=" col-md-12 col-lg-8 mx-auto mt-5">
-                        <form className='w-100'>
+                        <form onSubmit={(e) => handleSubmit(e)} className='w-100'>
                             <div className="mb-4">
-                                <textarea className="form-control" rows="4" placeholder="Leave a comment here" id="floatingTextarea" ></textarea>
+                                <textarea onChange={(e)=>setComment(e.target.value)}  className="form-control" rows="4" placeholder="Leave a comment here" id="floatingTextarea" ></textarea>
                             </div>
                             <div className="mb-4 d-flex gap-2">
                                 <button type="submit" className="btn btn-primary">Add Comment </button>

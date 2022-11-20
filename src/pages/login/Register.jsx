@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { FaGoogle } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { useIsLoggedIn } from '../../hooks/hooks';
 import { register } from '../../redux/AuthSlice';
 
 const Register = () => {
+
     const dispatch = useDispatch();
     const [user, setUser] = useState("")
     const [email, setEmail] = useState("")
@@ -30,13 +33,10 @@ const Register = () => {
                         <input onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="exampleInputPassword1" placeholder='Set your password' />
                     </div>
                     <div className="d-flex justify-content-between px-1">
-                        <div className="mb-4 form-check">
-                            <input type="checkbox" className="form-check-input bg-transparent" id="exampleCheck1" />
-                            <label className="form-check-label fw-bold" htmlFor="exampleCheck1">Remember Me?</label>
-                        </div>
+                    
                         <div className="mb-4">
-                            <a className="text-decoration-none text-white hover-blue" href="#">Forgot Password?</a>
-                        </div>
+              <Link className="text-decoration-none text-white hover-blue me-3 fw-bold" to="/login">Login</Link>
+                </div>
                     </div>
 
                     <div className="mb-3 d-flex gap-2">
