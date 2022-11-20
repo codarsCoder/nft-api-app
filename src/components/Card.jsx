@@ -11,7 +11,7 @@ const Card = ({ name, base_experience, height, id, weight, types,abilities,sprit
         
             <div  className={`nft-card-wrapper ${crsl ? "" : "col-10 col-md-6 col-xl-3 p-3"}`}>
                 <div className="nft-card-content">
-                    <div onClick={()=>navigate(`/detail/${name}`,{state:{ name, base_experience, height, id, weight, types,abilities,sprites,species,stats,pokemon}})}  className="nft-card-media rounded">
+                    <div onClick={()=>navigate(`/pokemon/${name}`,{state:{ name, base_experience, height, id, weight, types,abilities,sprites,species,stats,pokemon}})}  className="nft-card-media rounded">
                         <img style={{backgroundColor:`${color}`}} src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`} alt="axies" />
 
                        

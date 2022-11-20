@@ -8,26 +8,29 @@ import Pcarousel from '../components/Pcarousel';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCurrentUser } from '../hooks/hooks';
 import { addComment } from '../redux/DatabaseSlice';
-import { addbaba } from '../auth/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../auth/firebase';
 
-const Detail = () => {
+const Pokemon = () => {
 
-    const email = useSelector((state) => state.auth.email);
-    console.log(email);
-    const { pId } = useParams()
+    // const email = useSelector((state) => state.auth.email);
+    
+
+    const { pName } = useParams()
     const { state } = useLocation()
     const [pability, setPability] = useState([]);
     const [evolation, setEvolation] = useState("");
+    const [email, setEmail] = useState("");
+
     const [comment, setComment] = useState("");
     const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats } = state
     const dispatch = useDispatch();
-
     const handleSubmit = (e) => {
         e.preventDefault()
+       
         dispatch(addComment({email,comment}));
-        // addbaba(email,comment)
       }
-
+      
 
 
     const getAbility = async () => {
@@ -39,23 +42,38 @@ const Detail = () => {
             const datam = await axios.get(species.url)
             const evo = datam.data?.evolves_from_species?.name
             const evolation = evo && await axios.get(`https://pokeapi.co/api/v2/pokemon/${evo}`)
-            setEvolation({ ...evolation.data })
+            setEvolation({ ...evolation?.data })
         })
 
  
     }
+            const authControl =()=>{
+                 onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        const {email} = user;
+                     setEmail(email)
+                      }
+                  });
+            }
+
+    // useEffect(() => {
+    //     setEvolation("")
+    //     getAbility()
+    //     authControl()
+    // }, [])
 
     useEffect(() => {
+        setEvolation("")
         getAbility()
-    }, [])
+        authControl()
+    }, [pName])
 
     useEffect(() => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
     }, [abilities])
 
     const pokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
-    let evopokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolation.id}.png`
-
+   let  evolationImg =`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolation.id}.png`
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
             <div className=" col-md-8 col-xl-5">
@@ -118,18 +136,16 @@ const Detail = () => {
                         })
                     }
                 </div>
-
-
             </div>
             {
                 abilities.map((it, i) => {
                     {
                         return (
                             <>
-                                <div className="detail-types-2 w-100  text-white text-start mt-3">
+                                <div key={i} className="detail-types-2 w-100  text-white text-start mt-3">
                                     <span>Ability-{i + 1}</span>
                                     <div>
-                                        <h4 key={i}>{it.ability.name}: </h4>
+                                        <h4>{it.ability.name}: </h4>
                                         <p >{pability[i]}</p>
                                     </div>
                                 </div>
@@ -139,14 +155,15 @@ const Detail = () => {
                 })
             }
             {
-                evolation && (
-                    <>
+              
+              evolation.name && (
+                  <> 
                       <div className='w-100 text-center'> <h4 className='text-white mt-3 mx-auto'>Evolation</h4></div> 
                         <div className="evolation d-flex align-items-center justify-content-center mt-3">
 
                             <div className="nft-card-content col-6 col-md-4">
                                 <div className="nft-card-media rounded">
-                                    <img src={evopokeImg} alt="axies" />
+                                    <img src={evolationImg} alt="axies" />
                                 </div>
                                 <div className="nft-card-title"><h3 className='text-white m-auto'>{evolation.name} </h3>
                                 </div>
@@ -161,7 +178,9 @@ const Detail = () => {
                             </div>
                         </div>
                     </>
-                )
+              )
+                  
+                
             }
             <div className=" d-flex flex-column gap-2 mt-3 col-12 col-md-8">
             <div className='w-100 text-center'> <h4 className='text-white mt-3 mx-auto'>Stats</h4></div> 
@@ -224,4 +243,4 @@ const Detail = () => {
     )
 }
 
-export default Detail
+export default Pokemon

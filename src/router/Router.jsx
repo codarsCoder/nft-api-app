@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import Login from "../pages/login/Login"
 import Home from "../pages/Home"
 import User from "../pages/User"
-import Detail from "../pages/Detail"
+import Pokemon from "../pages/Pokemon"
 import Register from "../pages/login/Register"
 import PrivateRoute from "../pages/PrivateRoute"
 import NotFound from "../pages/NotFound"
@@ -23,8 +23,8 @@ const Router = () => {
             </Route>
               <Route path="/user" element={<User />} />
             <Route path="/" element={<Home />} />
-            <Route path="/detail/:pId" element={<PrivateRoute />}>
-                <Route path="" element={<Detail />} />
+            <Route  element={<PrivateRoute />}>
+                <Route  path="/pokemon/:pName" element={<Pokemon />} />
             </Route>
             <Route path="*" element={<NotFound />} />
             <Route path="*/*" element={<NotFound />} />

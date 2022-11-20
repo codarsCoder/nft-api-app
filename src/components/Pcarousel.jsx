@@ -25,9 +25,9 @@ function Pcarousel({pokemon}) {
    }else if(screenWidth > 768 && screenWidth <= 992){
     setPrv(2)
    }
-   else if(screenWidth > 992 && screenWidth <= 1400){
+   else if(screenWidth > 992 && screenWidth <= 1600){
     setPrv(3)
-   }else if(screenWidth > 1400){
+   }else if(screenWidth > 1600){
     setPrv(4)
    }
   } 
@@ -49,7 +49,7 @@ function Pcarousel({pokemon}) {
          {
                 pokemon.map((item, ind) => {
                     return (
-                       <SwiperSlide>  <Card key={ind} {...item} pokemon={pokemon} crsl={"crsl"}  /></SwiperSlide>
+                       <SwiperSlide key={ind}>  <Card  {...item} pokemon={pokemon} crsl={"crsl"}  /></SwiperSlide>
                     )
                 })
             }

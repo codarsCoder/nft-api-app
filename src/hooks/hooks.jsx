@@ -12,7 +12,7 @@ export const useCurrentUser = () => {
       });
     }, []);
   
-    return user;
+    return [user];
   };
   
   export const useIsLoggedIn = () => {

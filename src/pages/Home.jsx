@@ -6,14 +6,12 @@ import { useCurrentUser } from '../hooks/hooks';
 
 const Home = () => {
 
-    const user = useCurrentUser() ;console.log(user)
     const [pokemon, setPokemon] = useState([])
     const [nextUrl, SetNextUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=20")
     const [prevUrl, SetPrevUrl] = useState("")
-    const [resume, setResume] = useState(false)
 
     const getPokemon = async (props) => {
-        setResume(false)
+    
         setPokemon([])
         const { data } = await axios.get(props === "next" ? nextUrl : prevUrl )
         SetNextUrl(data.next)
@@ -24,7 +22,7 @@ const Home = () => {
                 const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${poke.name}`)
                 await setPokemon(currenPokemon => [...currenPokemon, data])
             });
-            setResume(true)
+          
         }
         createPokemon(data.results)
     }
