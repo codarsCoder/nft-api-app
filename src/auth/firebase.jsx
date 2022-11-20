@@ -9,6 +9,10 @@ import {
   deleteDoc,
   addDoc,
   serverTimestamp,
+  query,
+  orderBy,
+  getDocs,
+  where,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,3 +36,16 @@ export const auth = getAuth(app)
 export const database = getFirestore(app);
 export const dbComments = collection(database, "comments")
 
+//FİLTRELİ İŞLEMLER İÇİN
+export const UseProductListsFiltered = async(pName,setCommentList) => {
+  let carray=[]
+  const q = query(dbComments,where('pName', '==',pName),orderBy("time","asc"))//wherede == olduğunda orderby çalışmıyor
+         const querySnapshot = await getDocs(q);
+    const asd = async()=> {
+       querySnapshot.forEach((doc) => {
+   carray.push(doc.data())
+      })
+}
+ await asd();
+ await setCommentList(carray)
+}
