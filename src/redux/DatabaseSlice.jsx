@@ -25,19 +25,28 @@ export const addComment = createAsyncThunk(
     }
   }
 )
-let asd = [] ;
+
 export const getComment = createAsyncThunk(
   "getComment",
-  async ({ pName }, { rejectWithValue }) => {
-    try {
-      const q = query(dbComments, where('pName', '==', pName))
-      const querySnapshot = await getDocs(q);
-     querySnapshot.forEach(doc => {
-          asd.push(doc.data())
-     })
-    return asd
-    } catch (e) {
+  async ({ pName}, { rejectWithValue }) => {
+     let carray=[]
+     try {
+     
+      const q = query(dbComments,where('pName', '==',pName),orderBy("time","asc"))//wherede == olduğunda orderby çalışmıyor
+             const querySnapshot = await getDocs(q);
+        const asd = async()=> {
+           querySnapshot.forEach((doc) => {
+          const  {commnt, time:{seconds}, pName, emal} = doc.data()
+       carray.push({commnt, seconds, pName, emal})
+          })
+  
+    }   
+    await asd()
+    return carray
+  }catch (e) {
       return rejectWithValue(e.code);
+    }finally {
+      // return carray
     }
   }
 )
@@ -84,8 +93,8 @@ const DatabaseSlice = createSlice({
       })
       .addCase(getComment.fulfilled, (state, action) => {
         state.comments = action.payload;
-        console.log(action.payload)
-
+        console.log(state.comments)
+      
       })
       .addCase(getComment.rejected, (state, action) => {
         console.log("bir hata var");

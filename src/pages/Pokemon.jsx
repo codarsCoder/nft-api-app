@@ -27,8 +27,8 @@ const Pokemon = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(addComment({ email, pName, comment }));
-        UseProductListsFiltered(pName, setCommentList)
-        setComment("")
+        //  UseProductListsFiltered(pName, setCommentList)
+        // setComment("")
         setAddButton(() => false)
         addButtonCheck()
 
@@ -36,6 +36,7 @@ const Pokemon = () => {
 
     const handleClick = (e) => {
         dispatch(getComment({ pName }));
+        // dispatch(setCommentList({ pName }));
     }
 
 

@@ -204,6 +204,7 @@ border-radius: 10px;
 }
 
 .detail-comment {
+  min-width: 270px;
   border: 1px solid var(--color-primary);
   border-radius: 20px;
   padding: 20px;
