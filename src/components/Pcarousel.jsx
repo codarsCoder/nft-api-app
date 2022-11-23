@@ -20,14 +20,15 @@ function Pcarousel({pokemon}) {
   const [prv, setPrv] = useState(4)
   const handleResize = ()=>{
     setScreenWidth(window.innerWidth)
+    if(screenWidth > 1600){
+      setPrv(4)
+     }
    if(screenWidth <= 768){
     setPrv(1)
-   }else if(screenWidth > 768 && screenWidth <= 992){
+   } if(screenWidth > 768 && screenWidth <= 992){
     setPrv(2)
    }
-   else if(screenWidth > 992 && screenWidth <= 1600){
-    setPrv(3)
-   }else if(screenWidth > 1600){
+    if(screenWidth > 992 && screenWidth <= 1600){
     setPrv(4)
    }
   } 

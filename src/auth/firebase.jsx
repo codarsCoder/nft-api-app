@@ -13,6 +13,7 @@ import {
   orderBy,
   getDocs,
   where,
+  updateDoc,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -37,15 +38,15 @@ export const database = getFirestore(app);
 export const dbComments = collection(database, "comments")
 
 //FİLTRELİ İŞLEMLER İÇİN
-export const UseProductListsFiltered = async(pName,setCommentList) => {
-  let carray=[]
-  const q = query(dbComments,where('pName', '==',pName),orderBy("time","asc"))//wherede == olduğunda orderby çalışmıyor
-         const querySnapshot = await getDocs(q);
-    const asd = async()=> {
-       querySnapshot.forEach((doc) => {
-   carray.push(doc.data())
+export const UseProductListsFiltered =  async ( id, comment ) => {
+    try {
+      await updateDoc(doc(dbComments, id), { commnt: comment }).then((userCredential) => {
+        // Signed in
+        console.log(userCredential); 
       })
-}
- await asd();
- await setCommentList(carray)
-}
+
+    } catch (e) {
+     
+    }
+
+  }

@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import icons from '../helper/icons'
 import { FaRegCommentAlt, FaRegHeart, FaSyncAlt } from "react-icons/fa";
 import { BiRightArrow } from "react-icons/bi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { RiDeleteBin2Line } from "react-icons/ri";
 import axios from 'axios';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Pcarousel from '../components/Pcarousel';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCurrentUser } from '../hooks/hooks';
-import { addComment, getComment } from '../redux/DatabaseSlice';
+import { addComment, changeLoader, deleteComment, editComment, getComment } from '../redux/DatabaseSlice';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, UseProductListsFiltered } from '../auth/firebase';
+import ToastifyInfo,{ getScroll} from '../hooks/functions';
+import { ToastContainer ,toast} from 'react-bootstrap';
+import Toastify from '../hooks/toastify';
 
 const Pokemon = () => {
 
@@ -18,28 +23,47 @@ const Pokemon = () => {
     const [pability, setPability] = useState([]);
     const [evolation, setEvolation] = useState("");
     const [email, setEmail] = useState("");
-    const [commentList, setCommentList] = useState([]);
+    const [editBtn, setEditBtn] = useState(true);
     const [comment, setComment] = useState("");
+    const [commentId, setCommentId] = useState("");
     const [addButton, setAddButton] = useState(false);
     const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats } = state
     const dispatch = useDispatch();
-
-    const handleSubmit = (e) => {
+    const commentList = useSelector((state) => state.database.comments);
+    const navigate =useNavigate()
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        dispatch(addComment({ email, pName, comment }));
-        //  UseProductListsFiltered(pName, setCommentList)
-        // setComment("")
+        dispatch(changeLoader(true));
+        await dispatch(addComment({ email, pName, comment }));
+        dispatch(getComment({ pName }));
         setAddButton(() => false)
-        addButtonCheck()
-
+        setComment("")
+        addButtonCheck();
+        getScroll('comment-field')
     }
 
     const handleClick = (e) => {
+
         dispatch(getComment({ pName }));
         // dispatch(setCommentList({ pName }));
     }
 
-
+    const handleDeleteComment = async (id) => {
+        await dispatch(deleteComment(id));
+        dispatch(getComment({ pName }));
+    }
+    const handleEditComment2 = async (edtComment, id) => {
+        setComment(edtComment)
+        setEditBtn(false)
+        setCommentId(id)
+      
+    }
+    const handleEditComment = async () => {
+        dispatch(editComment({ commentId, comment }));
+        // UseProductListsFiltered(commentId,comment);
+        console.log(commentId, comment)
+        dispatch(getComment({ pName }));
+    }
 
 
     const getAbility = async () => {
@@ -70,17 +94,19 @@ const Pokemon = () => {
         });
     }
 
+
     useEffect(() => {
         addButtonCheck()
     }, [commentList])
 
 
     useEffect(() => {
-        UseProductListsFiltered(pName, setCommentList)
+        dispatch(getComment({ pName }));
         setEvolation("")
         getAbility()
         authControl()
         addButtonCheck()
+        Toastify("iiiiiii")
     }, [pName])
 
     useEffect(() => {
@@ -89,8 +115,11 @@ const Pokemon = () => {
 
     const pokeImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
     let evolationImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolation.id}.png`
+  
+  
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
+             
             <div className=" col-md-8 col-xl-5">
                 <div className="detail-media">
                     <img src={pokeImg} alt="" />
@@ -234,8 +263,8 @@ const Pokemon = () => {
                     {
                         commentList?.map((item, i) => {
                             let nn;
-                            if (item?.time?.seconds) {
-                                nn = new Date((item?.time?.seconds) * 1000).toLocaleDateString()
+                            if (item?.seconds) {
+                                nn = new Date((item?.seconds) * 1000).toLocaleDateString()
                             } else {
                                 nn = "Now"
                             }
@@ -244,11 +273,27 @@ const Pokemon = () => {
                                 <div className="detail-comment w-100">
                                     <div className="detail-title text-white d-flex justify-content-between">
                                         <h5>{item?.emal}</h5>
-                                        {
+                                        <div className='d-flex align-items-baseline '>
                                             <p>{nn}</p>
-                                        }
+                                            {
+                                                item?.emal == email && (
+                                                    <div className="edit  mb-2">
+                                                        {
+                                                            addButton && (
+                                                                <>
+                                                                    <button onClick={() => handleDeleteComment(item.id)}><FiTrash2 /></button>
+                                                                    <button onClick={() => handleEditComment2(item?.commnt, item.id)}><FiEdit /></button>
+                                                                </>
+                                                            )
+                                                        }
+                                                    </div>
+                                                )
+                                            }
+
+                                        </div>
                                     </div>
                                     <p className="text-white w-100">{item?.commnt}</p>
+
                                 </div>
                             )
 
@@ -257,22 +302,29 @@ const Pokemon = () => {
                     }
 
                 </div>
-                <div className="detail-add-comment w-100">
+                <div id="comment-field" className="detail-add-comment w-100">
                     <div className=" col-md-12 col-lg-8 mx-auto mt-5">
                         <form onSubmit={(e) => handleSubmit(e)} className='w-100'>
                             <div className="mb-4">
                                 <textarea onChange={(e) => setComment(e.target.value)} className="form-control" rows="4" value={comment} placeholder="Leave a comment here" id="floatingTextarea"  ></textarea>
                             </div>
                             <div className="mb-4 d-flex gap-2">
-                                <button type="submit" className="btn btn-primary" disabled={addButton}>Add Comment </button>
-                                <button onClick={() => handleClick()} type="button" className="btn btn-secondary">Edit Comment </button>
+                                {
+                                    addButton ? (
+                                        <button onClick={() => handleEditComment()} type="button" disabled={editBtn} className="btn btn-secondary" >Edit Comment </button>
+                                    ) : (
+                                        <button type="submit" className="btn btn-primary"  >Add Comment </button>
+                                    )
+                                }
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <Pcarousel pokemon={state.pokemon} />
+            <Pcarousel pokemon={state.pokemon} /> 
+            <ToastContainer />
         </div>
+       
     )
 }
 
