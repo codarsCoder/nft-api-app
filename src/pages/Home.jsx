@@ -14,8 +14,8 @@ const Home = () => {
 
         setPokemon([])
         const { data } = await axios.get(props === "next" ? nextUrl : prevUrl)
-        SetNextUrl(data.next)
-        SetPrevUrl(nextUrl)
+        data.previous ?  SetPrevUrl(data.previous) : SetPrevUrl("https://pokeapi.co/api/v2/pokemon?limit=20")
+         SetNextUrl(data.next) 
         const createPokemon = (res) => {
 
             res.forEach(async (poke) => {

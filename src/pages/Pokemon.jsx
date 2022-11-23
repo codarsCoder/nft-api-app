@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import icons from '../helper/icons'
 import { FaRegCommentAlt, FaRegHeart, FaSyncAlt } from "react-icons/fa";
 import { BiRightArrow } from "react-icons/bi";
@@ -7,6 +7,7 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import axios from 'axios';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Pcarousel from '../components/Pcarousel';
+import Pcarousel2 from '../components/pCarousel2';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCurrentUser } from '../hooks/hooks';
 import { addComment, changeLoader, deleteComment, editComment, getComment } from '../redux/DatabaseSlice';
@@ -27,10 +28,14 @@ const Pokemon = () => {
     const [comment, setComment] = useState("");
     const [commentId, setCommentId] = useState("");
     const [addButton, setAddButton] = useState(false);
+    const [autoFocus, setAutoFocus] = useState(false);
     const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats } = state
     const dispatch = useDispatch();
     const commentList = useSelector((state) => state.database.comments);
     const navigate =useNavigate()
+    const textareaFocus = useRef()
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         dispatch(changeLoader(true));
@@ -42,27 +47,31 @@ const Pokemon = () => {
         getScroll('comment-field')
     }
 
-    const handleClick = (e) => {
+    // const handleClick = (e) => {
 
-        dispatch(getComment({ pName }));
-        // dispatch(setCommentList({ pName }));
-    }
+    //     dispatch(getComment({ pName }));
+    //     // dispatch(setCommentList({ pName }));
+    // }
 
     const handleDeleteComment = async (id) => {
         await dispatch(deleteComment(id));
         dispatch(getComment({ pName }));
+        getScroll('comment-field')
     }
     const handleEditComment2 = async (edtComment, id) => {
         setComment(edtComment)
         setEditBtn(false)
         setCommentId(id)
-      
+        textareaFocus.current.focus()
+        getScroll('comment-field')
     }
     const handleEditComment = async () => {
-        dispatch(editComment({ commentId, comment }));
+       await dispatch(editComment({ commentId, comment }));
         // UseProductListsFiltered(commentId,comment);
         console.log(commentId, comment)
         dispatch(getComment({ pName }));
+        getScroll('comment-field')
+       
     }
 
 
@@ -306,8 +315,8 @@ const Pokemon = () => {
                     <div className=" col-md-12 col-lg-8 mx-auto mt-5">
                         <form onSubmit={(e) => handleSubmit(e)} className='w-100'>
                             <div className="mb-4">
-                                <textarea onChange={(e) => setComment(e.target.value)} className="form-control" rows="4" value={comment} placeholder="Leave a comment here" id="floatingTextarea"  ></textarea>
-                            </div>
+                                <textarea onChange={(e) => setComment(e.target.value)} className="form-control" rows="4" value={comment} placeholder="Leave a comment here" id="floatingTextarea" ref={textareaFocus}  ></textarea>
+                           </div>
                             <div className="mb-4 d-flex gap-2">
                                 {
                                     addButton ? (

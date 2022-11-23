@@ -2,7 +2,7 @@ import { async } from "@firebase/util";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateCurrentUser, updateProfile } from "firebase/auth";
 import { addDoc, deleteDoc, doc, getDocs, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
-import { auth, dbComments, UseProductListsFiltered } from "../auth/firebase"
+import { auth, dbComments } from "../auth/firebase"
 
 
 const initialState = {
@@ -59,8 +59,7 @@ export const editComment = createAsyncThunk(
     try {
       await updateDoc(doc(dbComments, commentId), { commnt: comment }).then((userCredential) => {
         // Signed in
-        console.log(userCredential); 
-
+       
       })
 return comment
     } catch (e) {
@@ -108,30 +107,20 @@ const DatabaseSlice = createSlice({
     changeLoader: (state, { payload }) => {
       state.isLoading = payload
     },
-    changeEmail: (state, { payload }) => {
-      state.email = payload
-    },
-    changePassword: (state, { payload }) => {
-      state.password = payload
-    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(addComment.pending, (state) => {
         state.isLoading = true;
-        console.log("başladı")
       })
       .addCase(addComment.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload, "eklendi")
       })
       .addCase(addComment.rejected, (state, action) => {
         state.error = action.payload;
         state.isLoading = false;
-        console.log("hata")
       })
       .addCase(getComment.pending, (state) => {
-        console.log("istek başladı");
       })
       .addCase(getComment.fulfilled, (state, action) => {
         state.comments = action.payload;
@@ -139,34 +128,27 @@ const DatabaseSlice = createSlice({
 
       })
       .addCase(getComment.rejected, (state, action) => {
-        console.log("bir hata var");
-        console.log(action.payload);
+
       })
       .addCase(deleteComment.pending, (state, action) => {
         state.isLoading = true;
-        console.log(action.payload, "   silme başladı");
       })
       .addCase(deleteComment.fulfilled, (state) => {
         state.isLoading = false;
-        console.log("silme başarılı");
       })
       .addCase(deleteComment.rejected, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload);
-        console.log("silme başarılı değil !!");
       })
       .addCase(editComment.pending, (state, action) => {
         state.isLoading = true;
-        console.log(action.payload, "   güncelleme başladı");
       })
       .addCase(editComment.fulfilled, (state) => {
         state.isLoading = false;
-        console.log("güncelleme başarılı");
       })
       .addCase(editComment.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        console.log("güncelleme başarılı değil !!");
+
       });
   },
 
