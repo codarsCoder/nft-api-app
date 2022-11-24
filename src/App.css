@@ -3,12 +3,15 @@
   --color-input:#8A8AA0;
   --color-primary:#343444;
   --color-secondary:#5142fc;
-  --text-color-1:rgb(131, 131, 152)
+  --text-color-1:rgb(138, 138, 160)
 }
 *{
   font-family: 'Urbanist', sans-serif;
 }
 
+.fw-900 {
+  font-weight: 900;
+}
 .hover-blue:hover {
  color: #5142fc !important;
  text-decoration: underline !important;
@@ -25,7 +28,15 @@
   background-color: var(--backGround);
 }
 
+.navigate {
+  font-size: 1.5rem;
+  font-weight: 700;
+} 
 
+.basic-nav-dropdown {
+ width: 30px;
+ height: 30px;
+}
 
 /* Login - Register  */
 .login-page {
@@ -151,8 +162,6 @@ border-radius: 10px;
  
 .info span , .price span, .detail-types span ,.detail-types-2 span {
   color: var(--text-color-1);
- 
-  font-weight: 600;
 }
 
 /* Detail   */

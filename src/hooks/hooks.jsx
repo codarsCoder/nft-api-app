@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
+import { getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { auth } from "../auth/firebase";
-
+import { auth, dbLike } from "../auth/firebase";
 
 export const useCurrentUser = () => {
     const [user, setUser] = useState(null);
@@ -26,4 +26,5 @@ export const useCurrentUser = () => {
   
     return isLoggedIn;
   };
+  
   

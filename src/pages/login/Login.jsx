@@ -25,7 +25,7 @@ const Login = () => {
       <div className="col-10 col-md-6 mx-auto mt-5">
         <form onSubmit={(e) => handleSubmit(e)}>
         <div className="mb-4">
-                        <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" id="exampleInputEmail1" placeholder='Your  email' />
+                        <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" id="exampleInputEmail1" placeholder='Your  email' autoFocus />
                         {/* <div className="form-text">{message}</div> */}
                     </div>
                     <div className="mb-4">

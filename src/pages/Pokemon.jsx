@@ -1,19 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import icons from '../helper/icons'
-import { FaRegCommentAlt, FaRegHeart, FaSyncAlt } from "react-icons/fa";
+import { FaHeart, FaRegCommentAlt, FaRegHeart, FaSyncAlt } from "react-icons/fa";
 import { BiRightArrow } from "react-icons/bi";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { RiDeleteBin2Line } from "react-icons/ri";
 import axios from 'axios';
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Pcarousel from '../components/Pcarousel';
-import Pcarousel2 from '../components/pCarousel2';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCurrentUser } from '../hooks/hooks';
-import { addComment, changeLoader, deleteComment, editComment, getComment } from '../redux/DatabaseSlice';
+import { addComment, addLike, changeLoader, deleteComment, deleteLike, editComment, getComment, getLike, getLikes } from '../redux/DatabaseSlice';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, UseProductListsFiltered } from '../auth/firebase';
-import ToastifyInfo,{ getScroll} from '../hooks/functions';
+import { auth, getLkesWhis } from '../auth/firebase';
+import { getScroll} from '../hooks/functions';
 import { ToastContainer ,toast} from 'react-bootstrap';
 import Toastify from '../hooks/toastify';
 
@@ -28,14 +26,12 @@ const Pokemon = () => {
     const [comment, setComment] = useState("");
     const [commentId, setCommentId] = useState("");
     const [addButton, setAddButton] = useState(false);
-    const [autoFocus, setAutoFocus] = useState(false);
-    const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats } = state
+    const [gettLike, setGettLike] = useState(true);
+    const { name, base_experience, height, id, weight, types, abilities, sprites, species, stats,allLikeList } = state
     const dispatch = useDispatch();
     const commentList = useSelector((state) => state.database.comments);
     const navigate =useNavigate()
     const textareaFocus = useRef()
-
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         dispatch(changeLoader(true));
@@ -47,12 +43,7 @@ const Pokemon = () => {
         getScroll('comment-field')
     }
 
-    // const handleClick = (e) => {
-
-    //     dispatch(getComment({ pName }));
-    //     // dispatch(setCommentList({ pName }));
-    // }
-
+  
     const handleDeleteComment = async (id) => {
         await dispatch(deleteComment(id));
         dispatch(getComment({ pName }));
@@ -65,14 +56,27 @@ const Pokemon = () => {
         textareaFocus.current.focus()
         getScroll('comment-field')
     }
+
     const handleEditComment = async () => {
        await dispatch(editComment({ commentId, comment }));
-        // UseProductListsFiltered(commentId,comment);
         console.log(commentId, comment)
         dispatch(getComment({ pName }));
         getScroll('comment-field')
        
     }
+
+       
+    
+  
+    const handlelike = async (id) => {
+
+         console.log(id)
+      await dispatch(addLike({ email, pName }));
+        // dispatch(getComment({ pName }));
+
+       
+    }
+
 
 
     const getAbility = async () => {
@@ -99,10 +103,16 @@ const Pokemon = () => {
             if (user) {
                 const { email } = user;
                 setEmail(email)
+                
             }
         });
+        return email
     }
 
+
+    useEffect(() => {
+        
+    }, [])
 
     useEffect(() => {
         addButtonCheck()
@@ -115,7 +125,7 @@ const Pokemon = () => {
         getAbility()
         authControl()
         addButtonCheck()
-        Toastify("iiiiiii")
+       
     }, [pName])
 
     useEffect(() => {
@@ -138,7 +148,11 @@ const Pokemon = () => {
                 <div className="detail-title d-flex align-items-center text-center text-white p-3" >
                     <h1>{name.slice(0, 1).toLocaleUpperCase() + name.slice(1)}</h1>
                     <div className="meta-item d-flex justify-content-end gap-3 w-100 ">
-                        <div className="detail-whislist d-flex justify-content-center  align-items-center gap-1"><FaRegHeart className='text-white fs-5 me-1' /></div>
+                        <div onClick={()=> handlelike(email)} className="detail-whislist d-flex justify-content-center  align-items-center gap-1">
+                            {
+                                allLikeList?.filter(item => item.emal == email && item.pName == pName).length > 0 ? <FaHeart className='text-white fs-5 me-1'/> : <FaRegHeart className='text-white fs-5 me-1' />
+                            }
+                            </div>
                         <div className="detail-whislist d-flex justify-content-center  align-items-center gap-1"><FaRegCommentAlt className='text-white fs-5 me-1' />{commentList.length}</div>
                     </div> </div>
                 <div className="detail-info d-flex justify-content-around flex-wrap w-100 ">

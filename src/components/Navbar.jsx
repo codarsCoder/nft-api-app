@@ -6,26 +6,35 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useDispatch, useSelector } from "react-redux";
 import { login, logOut } from "../redux/AuthSlice";
 import { useCurrentUser, useIsLoggedIn } from "../hooks/hooks";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Navigation = () => {
+
   const user = useCurrentUser()
   const dispatch = useDispatch()
   const isLoggedIn = useIsLoggedIn()
-  const email = useSelector((state) => state.auth.email);
+  // const email = useSelector((state) => state.auth.email);
   const navigate = useNavigate();
   return (
-    <Navbar bg="lidarkght" variant="dark" expand="md" >
+    <Navbar bg="lidarkght" variant="dark" expand="md"  className="navigate">
       <Container>
-        <Navbar.Brand as={Link} to="/">POKE APP</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/"><h2>POKE APP</h2> </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+          </Nav>
+          <Nav className="ms-auto">
+         
+            <NavDropdown title={ 
+              
+            <FaRegUserCircle  className="basic-nav-dropdown"/>
+            } id="basic-nav-dropdown" >
+           
               {
                 (isLoggedIn === true) ?
                   (<>
-                    <NavDropdown.Item as={Link} to="/user">{user.email}</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/user">{user[0].email}</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to="/" onClick={() => dispatch(logOut())}>
                       LogOut
@@ -37,8 +46,6 @@ const Navigation = () => {
                     </NavDropdown.Item>
                   )
               }
-
-
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

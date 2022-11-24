@@ -36,17 +36,46 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
 export const database = getFirestore(app);
 export const dbComments = collection(database, "comments")
+export const dbLike = collection(database, "likes")
 
-//FİLTRELİ İŞLEMLER İÇİN
-export const UseProductListsFiltered =  async ( id, comment ) => {
-    try {
-      await updateDoc(doc(dbComments, id), { commnt: comment }).then((userCredential) => {
-        // Signed in
-        console.log(userCredential); 
+
+
+export const getLkesWhis = async(pName,email) =>{
+  
+  let carray= []
+  try {
+    const q = query(dbLike, where('pName', '==', pName) , where('emal', '==', email))//wherede == olduğunda orderby çalışmıyor
+    const querySnapshot = await getDocs(q);
+    const fillArray = async () => {
+      querySnapshot.forEach((doc) => {
+        const id = doc.id;
+        const { pName, emal } = doc.data()
+        carray.push({ id,  pName, emal })
       })
-
-    } catch (e) {
-     
     }
+    await fillArray()
+   console.log(carray)
 
-  }
+} catch (e) {
+  console.log(e);
+}
+}
+export const getAllLikesWhis = async(SetAllLikeList) =>{
+  let carray= []
+  try {
+    const q = query(dbLike)//wherede == olduğunda orderby çalışmıyor
+    const querySnapshot = await getDocs(q);
+    const fillArray = async () => {
+      querySnapshot.forEach((doc) => {
+        const id = doc.id;
+        const { pName, emal } = doc.data()
+        carray.push({ id,  pName, emal })
+      })
+    }
+    await fillArray()
+    SetAllLikeList(carray)
+
+} catch (e) {
+  console.log(e);
+}
+}

@@ -1,15 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { getAllLikesWhis, getAlllikesWhis } from '../auth/firebase';
 import Card from '../components/Card';
-import { useCurrentUser } from '../hooks/hooks';
+
 
 const Home = () => {
 
     const [pokemon, setPokemon] = useState([])
     const [nextUrl, SetNextUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=20")
     const [prevUrl, SetPrevUrl] = useState("")
-
+    const [allLikeList, SetAllLikeList] = useState([])
     const getPokemon = async (props) => {
 
         setPokemon([])
@@ -17,7 +18,6 @@ const Home = () => {
         data.previous ?  SetPrevUrl(data.previous) : SetPrevUrl("https://pokeapi.co/api/v2/pokemon?limit=20")
          SetNextUrl(data.next) 
         const createPokemon = (res) => {
-
             res.forEach(async (poke) => {
                 const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${poke.name}`)
                 await setPokemon(currenPokemon => [...currenPokemon, data])
@@ -29,6 +29,7 @@ const Home = () => {
 
     useEffect(() => {
         getPokemon("next")
+        getAllLikesWhis(SetAllLikeList)
     }, [])
     return (
         <div className="container d-flex  flex-wrap  justify-content-center mt-5">
@@ -40,7 +41,7 @@ const Home = () => {
             {
                 pokemon.map((item, ind) => {
                     return (
-                        <Card key={ind} {...item} pokemon={pokemon} />
+                        <Card key={ind} {...item} pokemon={pokemon} allLikeList={allLikeList} />
                     )
                 })
             }
