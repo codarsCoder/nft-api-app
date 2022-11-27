@@ -266,7 +266,6 @@ const DatabaseSlice = createSlice({
       })
       .addCase(getLikes.fulfilled, (state,action) => {
         state.likes = action.payload;
-        console.log(action.payload);
         state.isLoading = false;
       })
       .addCase(getLikes.rejected, (state, action) => {
@@ -302,7 +301,6 @@ const DatabaseSlice = createSlice({
       })
       .addCase(deleteLike.pending, (state, action) => {
         state.isLoading = true;
-        console.log("sil balşkasdas");
       })
       .addCase(deleteLike.fulfilled, (state,action) => {
         state.like = action.payload;
@@ -312,7 +310,6 @@ const DatabaseSlice = createSlice({
       .addCase(deleteLike.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        console.log(action.payload);
       });
       // .addCase(getAllLike.pending, (state, action) => {
       //   state.isLoading = true;

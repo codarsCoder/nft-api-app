@@ -59,7 +59,6 @@ export const getLkesWhis = async(pName,email) =>{
       })
     }
     await fillArray()
-   console.log(carray)
 
 } catch (e) {
   console.log(e);

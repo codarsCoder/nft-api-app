@@ -74,7 +74,6 @@ const initialState = {
         builder
           .addCase(register.pending, (state) => {
             state.isLoading = true;
-            console.log("başladı")
           })
           .addCase(register.fulfilled, (state) => {
             state.isLoading = false;
@@ -84,7 +83,6 @@ const initialState = {
           .addCase(register.rejected, (state, action) => {
             state.error =action.payload ;
             state.isLoading = false;
-            console.log(action.payload)
           })
           .addCase(login.pending, (state) => {
             state.isLoading = true;

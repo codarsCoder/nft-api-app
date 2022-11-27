@@ -57,7 +57,6 @@ const Pokemon = () => {
 
     const handleEditComment = async () => {
        await dispatch(editComment({ commentId, comment }));
-        console.log(commentId, comment)
         dispatch(getComment({ pName }));
         getScroll('comment-field')
        
@@ -67,12 +66,8 @@ const Pokemon = () => {
     
   
     const handlelike = async (id) => {
-
-         console.log(id)
       await dispatch(addLike({ email, pName }));
-        // dispatch(getComment({ pName }));
-
-       
+     
     }
 
 
