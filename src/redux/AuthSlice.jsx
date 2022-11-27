@@ -11,6 +11,7 @@ const initialState = {
     password: "",
     isLoading: false,
     error: null,
+    succesMessage:"",
   };
   
  
@@ -90,8 +91,9 @@ const initialState = {
           })
           .addCase(login.fulfilled, (state,action) => {
             state.isLoading = false;
-            state.email = action.payload
-            console.log(state.email)
+            state.email = action.payload;
+            state.succesMessage = "Login successful";
+          
           })
           .addCase(login.rejected, (state, action) => {
             state.error = action.payload;

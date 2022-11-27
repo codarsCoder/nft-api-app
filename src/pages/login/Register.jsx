@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FaGoogle } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { useIsLoggedIn } from '../../hooks/hooks';
 import { register } from '../../redux/AuthSlice';
 
@@ -48,7 +49,7 @@ const Register = () => {
 
 
             </div>
-
+            <ToastContainer/>
         </div>
     )
 }

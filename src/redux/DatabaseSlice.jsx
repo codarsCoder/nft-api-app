@@ -214,6 +214,10 @@ const DatabaseSlice = createSlice({
     changeLoader: (state, { payload }) => {
       state.isLoading = payload
     },
+ 
+    changeError: (state, { payload }) => {
+      state.error = payload
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -309,7 +313,7 @@ const DatabaseSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
         console.log(action.payload);
-      })
+      });
       // .addCase(getAllLike.pending, (state, action) => {
       //   state.isLoading = true;
       // })

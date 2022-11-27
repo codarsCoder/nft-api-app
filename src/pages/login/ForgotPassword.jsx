@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FaGoogle } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { useIsLoggedIn } from '../../hooks/hooks';
 import { forgotPassword, login } from '../../redux/AuthSlice';
 
@@ -43,7 +44,7 @@ const ForgotPassword = () => {
 
 
       </div>
-
+      <ToastContainer/>
     </div>
   )
 }

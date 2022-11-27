@@ -12,11 +12,10 @@ import { addComment, addLike, changeLoader, deleteComment, deleteLike, editComme
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, getLkesWhis } from '../auth/firebase';
 import { getScroll} from '../hooks/functions';
-import { ToastContainer ,toast} from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 import Toastify from '../hooks/toastify';
 
 const Pokemon = () => {
-
     const { pName } = useParams()
     const { state } = useLocation()
     const [pability, setPability] = useState([]);
@@ -42,7 +41,6 @@ const Pokemon = () => {
         addButtonCheck();
         getScroll('comment-field')
     }
-
   
     const handleDeleteComment = async (id) => {
         await dispatch(deleteComment(id));
@@ -111,7 +109,7 @@ const Pokemon = () => {
 
 
     useEffect(() => {
-        
+
     }, [])
 
     useEffect(() => {

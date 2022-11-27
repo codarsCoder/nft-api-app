@@ -6,7 +6,6 @@ import Card from '../components/Card';
 
 
 const Home = () => {
-
     const [pokemon, setPokemon] = useState([])
     const [nextUrl, SetNextUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=20")
     const [prevUrl, SetPrevUrl] = useState("")

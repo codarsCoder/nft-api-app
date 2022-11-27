@@ -15,6 +15,9 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { changeLoader } from "../redux/DatabaseSlice";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,6 +40,8 @@ export const auth = getAuth(app)
 export const database = getFirestore(app);
 export const dbComments = collection(database, "comments")
 export const dbLike = collection(database, "likes")
+
+
 
 
 

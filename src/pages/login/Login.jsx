@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { FaGoogle } from "react-icons/fa";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useIsLoggedIn } from '../../hooks/hooks';
 import { login } from '../../redux/AuthSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import ToastifyWarn from '../../hooks/toastify';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,8 +17,6 @@ const Login = () => {
       e.preventDefault()
       dispatch(login({email,password}));
     }
-
-
 
   return (
     <div className='container d-flex flex-column align-items-center text-white mt-5 login-page'>
@@ -51,7 +51,7 @@ const Login = () => {
 
 
       </div>
-
+<ToastContainer/>
     </div>
   )
 }
