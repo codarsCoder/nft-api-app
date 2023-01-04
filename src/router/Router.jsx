@@ -8,6 +8,7 @@ import PrivateRoute from "../pages/PrivateRoute"
 import NotFound from "../pages/NotFound"
 import ForgotPassword from "../pages/login/ForgotPassword"
 import AuthLayout from "../layouts/AuthLayout"
+import Api from "../pages/Api"
 
 
 
@@ -16,15 +17,16 @@ import AuthLayout from "../layouts/AuthLayout"
 const Router = () => {
     return (
         <Routes>
-            <Route element={<AuthLayout/>}>
-                 <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route element={<AuthLayout />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/api" element={<Api />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
             </Route>
-              <Route path="/user" element={<User />} />
+            <Route path="/user" element={<User />} />
             <Route path="/" element={<Home />} />
-            <Route  element={<PrivateRoute />}>
-                <Route  path="/pokemon/:pName" element={<Pokemon />} />
+            <Route element={<PrivateRoute />}>
+                <Route path="/pokemon/:pName" element={<Pokemon />} />
             </Route>
             <Route path="*" element={<NotFound />} />
             <Route path="*/*" element={<NotFound />} />

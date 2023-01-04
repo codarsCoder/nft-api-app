@@ -39,7 +39,7 @@ const Pokemon = () => {
         setAddButton(() => false)
         setComment("")
         addButtonCheck();
-        getScroll('comment-field')
+        get('comment-field')
     }
   
     const handleDeleteComment = async (id) => {
